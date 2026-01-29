@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pixel's personal site showcasing Rust-based Linux tools, retro aesthetics, and open-source projects.">
+    <meta name="author" content="Pi66">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Pixel - {% block title %}Home{% endblock %}</title>
+    
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/favicon.ico">
+   <style>
+        @font-face {
+            font-family: 'Pixelify';
+            src: url('/static/fonts/PixelifySans-Regular.ttf') format('truetype');
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: 'Pixelify';
+            src: url('/static/fonts/PixelifySans-Bold.ttf') format('truetype');
+            font-weight: bold;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pixelify', sans-serif;
+            font-weight: normal;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #000;
+            color: #22c55e;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 900px;
+            gap: 300px;
+			font-size:120%;
+            width: 100%;
+        }
+
+        .skills-container h4 {
+            font-size: 1.2rem;
+            white-space: pre-line;
+            word-wrap: break-word;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 64rem;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .terminal {
+            border: 1px solid #333;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
+            padding: 1rem;
+        }
+
+        main {
+            padding: 1rem;
+        }
+
+        header {
+            margin-bottom: 1rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo img {
+            width: 38px;
+            margin-right: 0.5rem;
+            filter: saturate(130%);
+            border-radius: 4px;
+        }
+
+        nav {
+            font-size: 1rem;
+            display: flex;
+            gap: 1rem;
+            font-weight: bold;
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link:hover::before {
+            content: ">";
+            position: absolute;
+            left: -12px;
+        }
+
+        main {
+            flex: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        footer {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+            padding: 1rem;
+        }
+
+        footer span {
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .mobile-nav {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .terminal {
+                padding: 0.7rem;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .mobile-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: #000;
+                border-top: 1px solid #374151;
+                justify-content: space-around;
+                padding: 0.5rem;
+            }
+
+            .mobile-nav a {
+                padding: 0.5rem;
+            }
+
+            .skills-container {
+                gap: 3.4rem;
+            }
+
+            .skills-container h4 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="terminal">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <img src="/static/images/lain.gif" alt="Lain">
+                    <span class="title" style="font-size:1.5rem;">Pi66</span>
+                </a>
+                
+                <nav>
+                    <a href="/" class="nav-link">home</a>
+                    <a href="/tools" class="nav-link">tools</a>
+                    <a href="/about" class="nav-link">more</a>
+                    <a href="/gaza" class="nav-link">gaza</a>
+                </nav>
+            </div>
+        </header>
+        
+        <main class="terminal">
+            {% block content %}{% endblock %}
+        </main>
+        
+        <footer>
+            <p>// Created by <span>Pi66</span></p>
+            <p>// Copyright © Pi66 2026</p>
+        </footer>
+    </div>
+    
+    <div class="mobile-nav">
+        <a href="/">home</a>
+        <a href="/tools">tools</a>
+        <a href="/about">more</a>
+        <a href="/gaza">gaza</a>
+    </div>
+</body>
+<script>
+    function typePerLetter(selector, speed = 50, callback) {
+        const el = document.querySelector(selector);
+        if (!el) return;
+        
+        const str = el.textContent;
+        el.innerHTML = "";
+        let i = 0;
+        
+        const interval = setInterval(() => {
+            if (i >= str.length) {
+                clearInterval(interval);
+                return;
+            }
+            
+            let char = str[i];
+            if (char === "\n") {
+                el.appendChild(document.createElement("br"));
+            } else {
+                el.append(char);
+            }
+            if (callback) callback(char);
+            i++;
+        }, speed);
+    }
+
+    typePerLetter(".title", 100);
+</script>
+</html>
