@@ -20,3 +20,10 @@ tools_dir    = "./tools"
 pages_dir    = "./pages"
 static_dir   = "./static"
 template_dir = "./static"
+
+
+# Debugging server
+
+host = "0.0.0.0"
+port = 8000 
+restart_delay = 0
