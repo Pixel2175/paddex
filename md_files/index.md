@@ -1,7 +1,37 @@
 {% extends "layout.html" %} {% block title %}Home{% endblock %} {% block
 content %}
 
+
+
+
+
+
+
+
+
 ##  Heyo :3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Hey there! I'm [<span style="color:var(--color-heading-h3);"> Pi66</span>](/about), a developer with a passion for Rust, Linux,
 and retro computing aesthetics.  
