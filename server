@@ -1,0 +1,49 @@
+#!/usr/bin/env -S=2 python -B
+
+from livereload import Server
+from flask import Flask, redirect, render_template, send_file 
+from config import *
+import os
+
+
+
+app = Flask(__name__,template_folder=pages_dir, static_folder=static_dir)
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
+    candidates = [
+            path,
+            f"{path}.html",
+            os.path.join(path,"index.html"),
+            "404.html"
+    ]
+    for file in candidates:
+        template_path = file.replace("\\", "/")  # for Windows paths
+        full_path = os.path.join(app.template_folder, template_path)
+        if os.path.isfile(full_path):
+            return send_file(full_path,conditional=False, as_attachment=False)
+
+        # return  redirect("/404") 
+
+
+
+paths = [ 
+    md_dir ,      
+    static_dir ,  
+    template_dir 
+]
+
+
+
+
+def rebuild():
+    os.system("./generate")
+
+
+server = Server(app.wsgi_app)
+
+for path in paths:
+    server.watch(path,rebuild)
+
+server.serve(port = port, host=host, restart_delay=restart_delay, debug=True)
