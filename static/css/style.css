@@ -1,19 +1,3 @@
-:root {
-    --color-bg: #000000;
-    --color-text: rgb(209, 213, 219);
-    --color-text-muted: #ccc;
-    --color-heading-h1: rgb(21, 128, 61);
-    --color-heading-h2: rgb(22, 163, 74);
-    --color-heading-h3: rgb(34, 197, 94);
-    --color-heading-h4: rgb(74, 222, 128);
-    --color-heading-h5: rgb(134, 239, 172);
-    --color-link: #22c55e;
-    --color-link-hover: #86efac;
-    --color-code-bg: #000;
-    --color-code-border: #15803d;
-    --color-blockquote: #6b7280;
-}
-
 /* Main container */
 main {
     line-height: 1.5;
@@ -134,7 +118,7 @@ pre {
     background: var(--color-code-bg);
     border: 1px solid var(--color-code-border);
     border-radius: 6px;
-    padding: 1rem;
+    padding: 0.5rem 0.75rem;
     overflow-x: auto;
     margin-bottom: 1rem;
 }
