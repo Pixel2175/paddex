@@ -43,17 +43,13 @@ for root, _, files in walk(md_dir):
         md_to_html_content = md_to_html( md_content )
 
         content = []
-        for linee in md_to_html_content.splitlines():
+        for line in md_to_html_content.splitlines():
+            for flter in filters:
+                if flter[0] in line:
+                    line = line.replace(flter[0],flter[1])
+                    if flter[2]:
+                        line = line.replace('</p>', '')
 
-            line = linee
-            if "<p>{% extends" in line:
-                line = line.replace("<p>{% extends", "{% extends").replace('" %}', '" %}')
-            if "<p>{% block" in line:
-                line = line.replace("<p>{% block", "{% block").replace('" %}', '" %}')
-            if "<p><div" in line:
-                line = line.replace("<p><div", "<div").replace('</p>', '')
-            if "<p></div" in line:
-                line = line.replace("<p></div", "</div").replace('</p>', '')
 
             content.append(line)
         content = "\n".join(content)
