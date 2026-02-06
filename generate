@@ -1,8 +1,8 @@
 #!/bin/env -S=2 python -B
 
 import os
-import subprocess, re
-from jinja2 import Template, Environment,FileSystemLoader
+import subprocess
+from jinja2 import Environment,FileSystemLoader
 from os import path, walk, makedirs
 from config import *
 from sys import argv
