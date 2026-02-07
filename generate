@@ -7,7 +7,6 @@ from os import path, walk, makedirs
 from config import *
 from sys import argv
 
-from highlight import highlighter
 
 def init_dirs():
     os.makedirs(md_dir       ,exist_ok=True)
@@ -57,7 +56,8 @@ for root, _, files in walk(md_dir):
         html = template.render(keywords=keywords)
         if len(argv) > 1 and argv[1] in ["--minify","-m"]:
             html = html.replace(" ", "").replace("\n\n","\n")
-        if not (len(argv) > 1 and "-nh" in argv):
+        if (len(argv) > 1 and "-nh" in argv) or highlighting:
+            from highlight import highlighter
             html = highlighter(html)
         rel_path = path.relpath(md_path,md_dir).rstrip(".md") + ".html"
         makedirs(path.dirname(path.join(pages_dir,rel_path)), exist_ok=True)
