@@ -54,8 +54,6 @@ for root, _, files in walk(md_dir):
         content = "\n".join(content)
         template = env.from_string(content)
         html = template.render(keywords=keywords)
-        if len(argv) > 1 and argv[1] in ["--minify","-m"]:
-            html = html.replace(" ", "").replace("\n\n","\n")
         if (len(argv) > 1 and "-nh" in argv) or highlighting:
             from highlight import highlighter
             html = highlighter(html)
