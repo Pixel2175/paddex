@@ -33,7 +33,7 @@ def md_to_html(content):
 
 init_dirs()
 
-env = Environment(loader=FileSystemLoader("templates"), autoescape=False)
+env = Environment(loader=FileSystemLoader(template_dir), autoescape=False)
 for root, _, files in walk(md_dir):
     for file in files:
         md_path = path.join(root, file)
