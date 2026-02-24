@@ -1,0 +1,111 @@
+#!/usr/bin/env -S=2 python3 -B
+
+# from config import *
+from subprocess import run
+import tomllib, argparse, shutil
+from os import path, walk, makedirs, remove
+
+CONFIG_FILE = "./config.toml"
+
+with open(CONFIG_FILE, "rb") as f:
+    data = tomllib.load(f)["settings"]
+
+
+prcr = argparse.ArgumentParser(description="generator")
+prcr.add_argument("-f","--file",help="generate a specific file md file.")
+prcr.add_argument("-l","--layout")
+prcr.add_argument("-c","--clean", help="remove all generated files.",action="store_true")
+prcr.add_argument("-v","--version",help=f"print Version and exit",action="store_true")
+args = prcr.parse_args()
+
+md_dir        = data.get("md_dir", False)
+pages_dir     = data.get("pages_dir", False)
+layout_file   = data.get("layout_file", False)
+renderer      = data.get("renderer", False)
+mth           = data.get("md", False)
+VERSION       = data.get("VERSION", False)
+
+if args.layout and not layout_file: 
+    layout_file = args.layout
+
+def err(title, message):
+    print(f"[\x1b[33mE\x1b[0m] \x1b[31m{title}:\x1b[0m {message}");
+
+def init_dirs():
+    makedirs(pages_dir, exist_ok=True)
+
+def init_tools():
+    errors = []
+    if not path.exists(renderer):
+        errors.append("template renderer binary path is not valid.")
+    if not path.exists(mth):
+        errors.append("md-to-html binary path is not valid.")
+    for error in errors:
+        err("tools",error)
+
+    if len(errors) > 0:
+        exit(-1);
+
+
+def clear_pages():
+    if path.isdir(pages_dir):
+        shutil.rmtree(pages_dir)
+
+def read_file(file):
+    with open(file, "r") as f:
+        return f.read()
+
+def md_to_html(md, is_file=False):
+    if is_file:
+        md = read_file(md)
+    return run( [mth], input=md, capture_output=True, text=True)
+
+def template_renderer(layout_file, template,is_tmpl_file=False):
+    if is_tmpl_file:
+        template = read_file(template)
+    cmd = [renderer,"--config",CONFIG_FILE]
+    if layout_file:
+        cmd +=["--layout",layout_file]
+
+    return run(cmd, input=template, capture_output=True,text=True)
+
+
+def generate(md_path,is_file=True):
+    if is_file:
+        md_path = read_file(md_path)
+
+    md_content = md_to_html(md_path)
+    if md_content.returncode == 0:
+        html = template_renderer(layout_file,md_content.stdout)
+        if html.returncode == 0:
+            return html.stdout
+        else:
+            print(html.stderr)
+            exit(html.returncode)
+
+    else:
+        print(md_content.stderr)
+        exit(md_content.returncode)
+
+def version():
+    print(f"Version: {VERSION}")
+
+if args.clean:
+    clear_pages()
+
+if args.version:
+    version()
+    exit()
+
+init_tools()
+init_dirs()
+
+for root, _, files in walk(md_dir):
+    for file in files:
+        md_path    = path.join(root,file)
+        relpath    = path.relpath(md_path,md_dir).rstrip(".md") + ".html"
+        print(relpath)
+
+        md_content = generate(md_path)
+        with open(path.join(pages_dir,relpath), "w" ) as f:
+            f.write(md_content)
