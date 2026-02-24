@@ -3,7 +3,7 @@
 A simple static site generator engine.  
 It converts Markdown files into HTML pages.
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/yourname)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/pix66)
 
 ## Build
 
