@@ -11,11 +11,9 @@ It converts Markdown files into HTML pages.
 make
 ```
 
-This will compile the tools and place the binaries in `bin/`.
+Binaries are placed in `bin/`.
 
 ## Config
-
-Edit `config.toml` to set your variables and paths:
 
 ```toml
 [context]
@@ -28,18 +26,16 @@ md_dir      = "./src"
 pages_dir   = "./pages"
 ```
 
-- `[context]` — variables available inside your templates
-- `[settings]` — paths used by the engine
+- `[context]`  — template variables
+- `[settings]` — engine paths
 
 ## Clean
 
-for binaries:
 ```bash
-make clean
-```
-for static files:
-```bash
-./paddex --clean
+make clean        # binaries
+./paddex --clean  # static files
 ```
 
+---
 
+For full documentation — templates, layouts, loops, conditionals and more — visit **[pix66.xyz/tools/paddex](https://pix66.xyz/tools/paddex)**.
