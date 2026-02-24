@@ -1,0 +1,19 @@
+[package]
+name = "paddex-rs"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "template-renderer"
+path = "src/template-renderer.rs"
+
+[[bin]]
+name = "md-to-html"
+path = "src/md-to-html.rs"
+
+[dependencies]
+clap = { version = "4.5.59", features=["derive"]}
+minijinja = { version= "2.15.1", features = ["serde"] }
+pulldown-cmark = "0.13.0"
+serde_json = "1.0.149"
+toml = "1.0.3"

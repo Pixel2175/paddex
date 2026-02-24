@@ -1,5 +1,4 @@
-md_files/
-pages/
-tools/
-static/
-templates/
+/tools/target/
+/bin
+/src
+/pages
