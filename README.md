@@ -38,4 +38,4 @@ make clean        # binaries
 
 ---
 
-For full documentation — templates, layouts, loops, conditionals and more — visit **[pix66.xyz/tools/paddex](https://pix66.xyz/tools/paddex)**.
+For full documentation — templates, layouts, loops, conditionals and more — visit **[pi66.xyz/tools/paddex](https://pi66.xyz/tools/paddex)**.
