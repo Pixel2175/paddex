@@ -3,6 +3,8 @@
 A simple static site generator engine.  
 It converts Markdown files into HTML pages.
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/yourname)
+
 ## Build
 
 ```bash
@@ -39,3 +41,5 @@ for static files:
 ```bash
 ./paddex --clean
 ```
+
+
