@@ -92,6 +92,7 @@ def version():
 
 if args.clean:
     clear_pages()
+    exit()
 
 if args.version:
     version()
