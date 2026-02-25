@@ -1,12 +1,10 @@
 [context]
-name  = "Alice"
-age   = 18
-
-joker = "potato"
+name         = "Alice"
+layout_title = "Pixel"
 
 [settings]
-layout_file   = "./layout.html"
-md_dir        = "./src"
+layout_file   = "./src/layout.html"
+md_dir        = "./src/md/"
 pages_dir     = "./pages"
 
 # Debugging server
@@ -17,4 +15,4 @@ port = 8000
 renderer = "./bin/template-renderer"
 md       = "./bin/md-to-html"
 
-VERSION = "0.0.1"
+VERSION = "0.1.0"
