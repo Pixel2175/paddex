@@ -1,9 +1,11 @@
 #!/usr/bin/env -S=2 python3 -B
 
-# from config import *
 from subprocess import run
-import tomllib, argparse, shutil
-from os import path, walk, makedirs, remove
+import tomllib, sys, argparse, shutil
+from os import path, walk, makedirs, chdir
+from tools import webpeek
+
+chdir(path.dirname(sys.argv[0]) or "./")
 
 CONFIG_FILE = "./config.toml"
 
@@ -11,18 +13,22 @@ with open(CONFIG_FILE, "rb") as f:
     data = tomllib.load(f)["settings"]
 
 
-prcr = argparse.ArgumentParser(description="generator")
+prcr = argparse.ArgumentParser(description="paddex")
 prcr.add_argument("-f","--file",help="generate a specific file md file.")
 prcr.add_argument("-l","--layout")
 prcr.add_argument("-c","--clean", help="remove all generated files.",action="store_true")
 prcr.add_argument("-v","--version",help=f"print Version and exit",action="store_true")
+prcr.add_argument("-w","--webview", help="run webview for debug with auto-reload",action="store_true")
 args = prcr.parse_args()
 
 md_dir        = data.get("md_dir", False)
 pages_dir     = data.get("pages_dir", False)
+static_dir    = data.get("static_dir", None)
 layout_file   = data.get("layout_file", False)
 renderer      = data.get("renderer", False)
 mth           = data.get("md", False)
+host          = data.get("host", "http://localhost")
+port          = data.get("port", 3000)
 VERSION       = data.get("VERSION", False)
 
 if args.layout and not layout_file: 
@@ -33,6 +39,7 @@ def err(title, message):
 
 def init_dirs():
     makedirs(pages_dir, exist_ok=True)
+    makedirs(static_dir, exist_ok=True)
 
 def init_tools():
     errors = []
@@ -87,26 +94,38 @@ def generate(md_path,is_file=True):
         print(md_content.stderr)
         exit(md_content.returncode)
 
+def gen_file(file):
+    md_path    = path.join(file)
+    relpath    = path.relpath(md_path,md_dir).rstrip(".md") + ".html"
+    print(relpath)
+
+    md_content = generate(md_path)
+    with open(path.join(pages_dir,relpath), "w" ) as f:
+        f.write(md_content)
+
+
 def version():
     print(f"Version: {VERSION}")
-
-if args.clean:
-    clear_pages()
-    exit()
 
 if args.version:
     version()
     exit()
 
+if args.clean:
+    clear_pages()
+    exit()
+
 init_tools()
 init_dirs()
 
+if args.webview:
+    webpeek.run(host=host,port=port,md_dir=md_dir ,pages_dir=pages_dir,static_dir=static_dir)
+    exit()
+
+if args.file:
+    gen_file(args.file)
+    exit()
+
 for root, _, files in walk(md_dir):
     for file in files:
-        md_path    = path.join(root,file)
-        relpath    = path.relpath(md_path,md_dir).rstrip(".md") + ".html"
-        print(relpath)
-
-        md_content = generate(md_path)
-        with open(path.join(pages_dir,relpath), "w" ) as f:
-            f.write(md_content)
+        gen_file(path.join(root,file))
