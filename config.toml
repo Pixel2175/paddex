@@ -2,17 +2,20 @@
 name         = "Alice"
 layout_title = "Pixel"
 
+style_css    = "/static/style.css" 
+
 [settings]
 layout_file   = "./src/layout.html"
 md_dir        = "./src/md/"
 pages_dir     = "./pages"
+static_dir    = "./static"
 
 # Debugging server
-host = "0.0.0.0"
-port = 8000 
+host = "localhost"
+port = 3000
 
 # Tools path
 renderer = "./bin/template-renderer"
 md       = "./bin/md-to-html"
 
-VERSION = "0.1.0"
+VERSION = "0.2.0"
