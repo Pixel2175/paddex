@@ -14,12 +14,11 @@ pub fn die(title:&str, message:&str) -> ! {
 
 #[allow(dead_code)]
 pub fn basename(dir: &str) -> String {
-    let bn = Path::new(dir)
+    Path::new(dir)
         .file_name()
         .and_then(|s| s.to_str())
         .unwrap_or_else( ||
             die("die", &format!("basename not found for {}", dir))
         )
-        .to_string();
-    bn
+        .to_string()
 }
