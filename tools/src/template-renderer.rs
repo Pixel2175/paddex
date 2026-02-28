@@ -25,7 +25,7 @@ fn main() {
         Err(e) =>  die("config", &e.to_string()),
     };
     let context = match toml_value.get("context") {
-        Some(value) => Value::from_serialize(&serde_json::to_value(value).unwrap_or_default()),
+        Some(value) => Value::from_serialize(serde_json::to_value(value).unwrap_or_default()),
         None => die("context", "not defined in config.toml"),
     };
     let layout_dir = args.layout.unwrap_or_default();
@@ -49,10 +49,9 @@ fn main() {
     let layout_file = if !layout_dir.is_empty() { read_file(&layout_dir) } else { String::new() };
     let layout_name = if !layout_dir.is_empty() { basename(&layout_dir) } else { String::new() };
 
-    if !layout_dir.is_empty() {
-        if let Err(e) = env.add_template(&layout_name, &layout_file) {
+    if !layout_dir.is_empty() &&
+        let Err(e) = env.add_template(&layout_name, &layout_file) {
             die("generate", &format!("{e:#}"));
-        }
     };
 
     if let Err(e) = env.add_template(&template_name, &template_content) {
