@@ -1,0 +1,20 @@
+# Changelog
+
+## [0.2.0]
+
+### Added
+* `tools/webpeek.py` for webview server with live reload.
+* `--webview` option in `paddex` CLI for debugging with auto-reload.
+* `static/style.css` and support for static directory in config.
+* CSS link in `layout.html`.
+
+### Updated
+* `Makefile` to auto-install missing Python dependencies (`pywebview`, `watchdog`, `PyGObject`).
+* `config.toml` with new static directory, style CSS, and updated default host/port.
+* `paddex` CLI: refactored file generation, added webview option, cleaned walk logic.
+* Rust paddex crate bumped to 1.0.0.
+* Minor formatting in `src/md/index.md`.
+
+### Fixed
+* `tools/src/template-renderer.rs`: serialization and layout template add logic.
+* `tools/src/utils.rs`: simplified `basename` function.
